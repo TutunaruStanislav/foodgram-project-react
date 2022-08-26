@@ -1,5 +1,4 @@
 from rest_framework.validators import ValidationError
-
 from service.models import Ingredient, Tag
 
 

@@ -8,7 +8,6 @@ from rest_framework.mixins import (CreateModelMixin, DestroyModelMixin,
                                    ListModelMixin, RetrieveModelMixin)
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-
 from service.models import (Favorite, Follow, Ingredient, IngredientAmount,
                             Purchase, Recipe, Tag)
 from users.models import User

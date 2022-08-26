@@ -1,7 +1,6 @@
 import django_filters as filters
 from django_filters.rest_framework import FilterSet
 from rest_framework.filters import SearchFilter
-
 from service.models import Recipe
 
 
