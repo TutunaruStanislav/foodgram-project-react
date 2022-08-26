@@ -3,8 +3,8 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv(
     'DB_ENGINE', default='b%8%38p2enm(4(_el^8l57uf&#^zm83^k70yq6kz+)hsk%0*l7')
-DEBUG = True
-ALLOWED_HOSTS = ['*']
+DEBUG = False
+ALLOWED_HOSTS = ['localhost', 'backend', '51.250.107.213']
 
 # Application definition
 
