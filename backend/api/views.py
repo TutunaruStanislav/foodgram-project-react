@@ -8,6 +8,7 @@ from rest_framework.mixins import (CreateModelMixin, DestroyModelMixin,
                                    ListModelMixin, RetrieveModelMixin)
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+
 from service.models import (Favorite, Follow, Ingredient, IngredientAmount,
                             Purchase, Recipe, Tag)
 from users.models import User
@@ -93,6 +94,8 @@ class FollowViewSet(viewsets.ModelViewSet):
             subscription.delete()
 
             return Response(status=status.HTTP_204_NO_CONTENT)
+
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
