@@ -59,8 +59,14 @@ class FollowAdmin(BaseUserRecipeAdmin):
     author.short_description = 'Автор'
 
 
+class IngredientsAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    list_filter = ('name',)
+    search_fields = ('name',)
+
+
 admin.site.register(Tag)
-admin.site.register(Ingredient)
+admin.site.register(Ingredient, IngredientsAdmin)
 admin.site.register(Follow, FollowAdmin)
 admin.site.register(Recipe, RecipeAdmin)
 admin.site.register(Favorite, BaseUserRecipeAdmin)

@@ -51,7 +51,8 @@ class IngredientViewSet(ListModelMixin, RetrieveModelMixin,
     serializer_class = IngredientSerializer
     permission_classes = [AllowAny, ]
     pagination_class = None
-    filter_backends = [IngredientFilter, ]
+    filter_class = IngredientFilter
+    filter_backends = [DjangoFilterBackend, ]
     search_fields = ('name', )
 
 
