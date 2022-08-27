@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 from users.models import User
 
 from .models import (Favorite, Follow, Ingredient, IngredientAmount, Purchase,
@@ -24,16 +25,11 @@ class RecipeAdmin(admin.ModelAdmin):
     amount_favorites.short_description = 'Добавлено в избранное'
 
 
-class UserAdmin(admin.ModelAdmin):
+class CustomUserAdmin(UserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name',)
     search_fields = ('username', 'email',)
     list_filter = ('username', 'email',)
     empty_value_display = '-пусто-'
-
-    def save_model(self, request, obj, form, change):
-        if obj.pk:
-            obj.set_password(obj.password)
-        obj.save()
 
 
 class BaseUserRecipeAdmin(admin.ModelAdmin):
@@ -71,4 +67,4 @@ admin.site.register(Follow, FollowAdmin)
 admin.site.register(Recipe, RecipeAdmin)
 admin.site.register(Favorite, BaseUserRecipeAdmin)
 admin.site.register(Purchase, BaseUserRecipeAdmin)
-admin.site.register(User, UserAdmin)
+admin.site.register(User, CustomUserAdmin)
