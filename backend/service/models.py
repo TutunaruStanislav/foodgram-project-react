@@ -7,8 +7,8 @@ User = get_user_model()
 
 
 class Ingredient(models.Model):
-    name = models.CharField(max_length=200)
-    measurement_unit = models.CharField(max_length=20)
+    name = models.CharField(max_length=200, verbose_name='Название')
+    measurement_unit = models.CharField(max_length=20, verbose_name='Ед. Изм.')
 
     class Meta:
         ordering = ['name']
@@ -98,6 +98,9 @@ class IngredientAmount(models.Model):
             models.UniqueConstraint(fields=['ingredient', 'recipe'],
                                     name='unique')
         ]
+
+    def __str__(self):
+        return ''
 
 
 class Favorite(models.Model):
