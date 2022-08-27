@@ -4,7 +4,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv(
     'DB_ENGINE', default='b%8%38p2enm(4(_el^8l57uf&#^zm83^k70yq6kz+)hsk%0*l7')
 DEBUG = False
-ALLOWED_HOSTS = ['localhost', 'backend', '51.250.107.213', 'frontend']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -172,4 +172,4 @@ DJOSER = {
 # Cors
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
+CORS_URLS_REGEX = r'^/api/.*$'
