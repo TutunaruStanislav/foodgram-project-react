@@ -65,6 +65,15 @@ class FollowViewSet(viewsets.ModelViewSet):
     serializer_class = FollowSerializer
     permission_classes = (IsAuthenticated, )
 
+    def list(self, request, *args, **kwargs):
+        pages = self.paginate_queryset(
+            Follow.objects.filter(user=request.user)
+        )
+        serializer = FollowSerializer(pages, many=True,
+                                      context={'request': request})
+
+        return self.get_paginated_response(serializer.data)
+
     @action(detail=True, methods=['post', 'delete'])
     def subscribe(self, request, pk=None):
         author = get_object_or_404(User, id=pk)

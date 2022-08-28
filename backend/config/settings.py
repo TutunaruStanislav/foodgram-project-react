@@ -6,7 +6,7 @@ load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = bool(os.getenv('DEBUG'))
+DEBUG = (os.getenv('DEBUG', 'False') == 'True')
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
