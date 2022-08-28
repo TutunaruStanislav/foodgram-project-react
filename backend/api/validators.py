@@ -1,6 +1,6 @@
 from rest_framework.validators import ValidationError
 
-from service.models import Ingredient, Tag
+from recipes.models import Ingredient, Tag
 
 
 def validate_ingredients(ingredients):

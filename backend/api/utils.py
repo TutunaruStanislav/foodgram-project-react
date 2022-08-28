@@ -1,6 +1,6 @@
 from django.db.models import Sum
 
-from service.models import IngredientAmount
+from recipes.models import IngredientAmount
 
 
 def render_purchase_list(request):

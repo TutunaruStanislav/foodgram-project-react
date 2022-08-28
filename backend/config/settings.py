@@ -12,7 +12,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'service.apps.ServiceConfig',
+    'recipes.apps.RecipesConfig',
     'api.apps.ApiConfig',
     'users.apps.UsersConfig',
     'django.contrib.admin',
@@ -133,15 +133,15 @@ REST_FRAMEWORK = {
 
 ADMIN_REORDER = (
     {
-        'app': 'service',
+        'app': 'recipes',
         'label': 'Приложение',
         'models': (
-            'service.Recipe',
-            'service.Ingredient',
-            'service.Tag',
-            'service.Follow',
-            'service.Favorite',
-            'service.Purchase',
+            'recipes.Recipe',
+            'recipes.Ingredient',
+            'recipes.Tag',
+            'recipes.Follow',
+            'recipes.Favorite',
+            'recipes.Purchase',
         )
     },
     {

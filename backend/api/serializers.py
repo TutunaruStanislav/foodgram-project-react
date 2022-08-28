@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
-from service.models import (
+from recipes.models import (
     Favorite, Follow, Ingredient, IngredientAmount, Purchase, Recipe, Tag
 )
 from users.models import User
