@@ -40,7 +40,8 @@ class UserListCreateViewSet(ListModelMixin,
         return User.objects.all()
 
     def retrieve(self, request, *args, **kwargs):
-        serializer = UserSerializer(self.get_queryset())
+        serializer = UserSerializer(self.get_queryset(),
+                                    context={'request': request})
         return Response(serializer.data)
 
 
