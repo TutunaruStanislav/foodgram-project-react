@@ -67,7 +67,7 @@ class Recipe(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['author', 'name'],
-                name='unique_author_recipe'
+                name='unique_author_recipe_name'
             )
         ]
         verbose_name = 'Рецепт'

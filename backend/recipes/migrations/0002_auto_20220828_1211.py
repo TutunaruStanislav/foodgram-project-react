@@ -76,7 +76,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='recipe',
-            constraint=models.UniqueConstraint(fields=('author', 'name'), name='unique_author_recipe'),
+            constraint=models.UniqueConstraint(fields=('author', 'name'), name='unique_author_recipe_name'),
         ),
         migrations.AddConstraint(
             model_name='purchase',
