@@ -2,7 +2,7 @@ import csv
 
 from django.apps import apps
 from django.core.management.base import BaseCommand
-from config.settings import BASE_DIR
+from django.conf import settings
 
 
 class Command(BaseCommand):
@@ -21,7 +21,7 @@ class Command(BaseCommand):
                             help='App name', required=True)
 
     def handle(self, *args, **options):
-        file_path = BASE_DIR + options['path']
+        file_path = settings.BASE_DIR + options['path']
         _model = apps.get_model(options['app'], options['model'])
 
         with open(file_path, 'r', encoding='utf-8') as csv_file:

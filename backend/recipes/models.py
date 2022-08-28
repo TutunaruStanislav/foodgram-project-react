@@ -20,7 +20,7 @@ class Ingredient(models.Model):
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=200, verbose_name='Заголовок')
+    name = models.CharField(max_length=20, verbose_name='Заголовок')
     color = ColorField(verbose_name='Цвет')
     slug = models.SlugField(unique=True, verbose_name='Слаг')
 
@@ -54,7 +54,7 @@ class Recipe(models.Model):
     tags = models.ManyToManyField(Tag,
                                   related_name='tag_recipes',
                                   verbose_name='Теги')
-    cooking_time = models.IntegerField(
+    cooking_time = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1)],
         verbose_name='Время приготовления, мин')
     pub_date = models.DateTimeField(auto_now_add=True)
@@ -100,7 +100,8 @@ class IngredientAmount(models.Model):
         ]
 
     def __str__(self):
-        return ''
+        return (f'{self.ingredient.name}, {self.amount} '
+                f'{self.ingredient.measurement_unit}')
 
 
 class Favorite(models.Model):
@@ -154,6 +155,9 @@ class Purchase(models.Model):
         ]
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
+
+    def __str__(self):
+        return f'{self.user.first_name} -> {self.recipe.name}'
 
 
 class Follow(models.Model):

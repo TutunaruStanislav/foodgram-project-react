@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from users.models import User
 
-from .models import (Favorite, Follow, Ingredient, IngredientAmount, Purchase,
-                     Recipe, Tag)
+from users.models import User
+from .models import (
+    Favorite, Follow, Ingredient, IngredientAmount, Purchase, Recipe, Tag
+)
 
 
 class IngredientsInline(admin.TabularInline):
@@ -11,20 +12,19 @@ class IngredientsInline(admin.TabularInline):
     extra = 1
 
 
+@admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('name', 'author', 'amount_favorites',)
     inlines = (IngredientsInline,)
-    list_filter = ('author', 'name', 'tags')
+    list_filter = ('author', 'name', 'tags',)
 
     def amount_favorites(self, obj):
-        if obj.recipe.count():
-            return obj.recipe.count()
-
-        return None
+        return obj.recipe.count()
 
     amount_favorites.short_description = 'Добавлено в избранное'
 
 
+@admin.register(User)
 class CustomUserAdmin(UserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name',)
     search_fields = ('username', 'email',)
@@ -32,6 +32,7 @@ class CustomUserAdmin(UserAdmin):
     empty_value_display = '-пусто-'
 
 
+@admin.register(Favorite, Purchase)
 class BaseUserRecipeAdmin(admin.ModelAdmin):
     list_display = ('user', 'recipe',)
 
@@ -46,6 +47,7 @@ class BaseUserRecipeAdmin(admin.ModelAdmin):
     recipe.short_description = 'Рецепт'
 
 
+@admin.register(Follow)
 class FollowAdmin(BaseUserRecipeAdmin):
     list_display = ('user', 'author',)
 
@@ -55,16 +57,13 @@ class FollowAdmin(BaseUserRecipeAdmin):
     author.short_description = 'Автор'
 
 
+@admin.register(Ingredient)
 class IngredientsAdmin(admin.ModelAdmin):
-    list_display = ('name', 'measurement_unit')
+    list_display = ('name', 'measurement_unit',)
     list_filter = ('name',)
     search_fields = ('name',)
 
 
-admin.site.register(Tag)
-admin.site.register(Ingredient, IngredientsAdmin)
-admin.site.register(Follow, FollowAdmin)
-admin.site.register(Recipe, RecipeAdmin)
-admin.site.register(Favorite, BaseUserRecipeAdmin)
-admin.site.register(Purchase, BaseUserRecipeAdmin)
-admin.site.register(User, CustomUserAdmin)
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('name',)
