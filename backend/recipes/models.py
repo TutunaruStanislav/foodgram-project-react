@@ -122,7 +122,7 @@ class Favorite(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'recipe'],
-                name='unique_favorites',
+                name='unique_favorites_user',
             ),
         ]
         verbose_name = 'Избранное'
@@ -178,7 +178,7 @@ class Follow(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'author'],
-                name='unique_follows',
+                name='unique_follows_user',
             ),
         ]
         verbose_name = 'Подписка'
