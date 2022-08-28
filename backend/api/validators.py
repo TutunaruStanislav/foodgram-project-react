@@ -1,4 +1,5 @@
 from rest_framework.validators import ValidationError
+
 from service.models import Ingredient, Tag
 
 
@@ -32,3 +33,33 @@ def validate_tags(tags):
             raise ValidationError({'tags': ['Тэг не найден']})
 
     return tags
+
+
+def validate_subscribe(context):
+    if context.get('request').method == 'POST':
+        if context.get('request').user == context.get('author'):
+            raise ValidationError({'errors': ['Нельзя подписаться на себя']})
+
+        if context.get('subscription').exists():
+            raise ValidationError(
+                {'errors': ['Вы уже подписаны на пользователя']})
+
+    if context.get('request').method == 'DELETE':
+        if not context.get('subscription').exists():
+            raise ValidationError(
+                {'errors': ['Вы уже отписались от пользователя']})
+
+    return context
+
+
+def validate_favorite_purchase(context):
+    if context.get('self'):
+        if context.get('self').model.objects.filter(
+                user=context.get('self').request.user,
+                recipe__id=context.get('self').kwargs['pk']).exists():
+            raise ValidationError({'errors': 'Рецепт ранее был добавлен'})
+    else:
+        if not context.get('obj').exists():
+            raise ValidationError({'errors': 'Рецепт уже был удален'})
+
+    return context
