@@ -90,6 +90,8 @@ class FollowViewSet(viewsets.ModelViewSet):
 
             return Response(status=status.HTTP_204_NO_CONTENT)
 
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
 
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
@@ -116,6 +118,8 @@ class FavoritePurchaseViewSet(CreateDestroyMixin):
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
     def destroy(self, request, *args, **kwargs):
         obj = self.model.objects.filter(user=self.request.user,
                                         recipe__id=kwargs.get('pk'))
@@ -124,6 +128,8 @@ class FavoritePurchaseViewSet(CreateDestroyMixin):
             obj.delete()
 
             return Response(status=status.HTTP_204_NO_CONTENT)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class FavoriteViewSet(FavoritePurchaseViewSet):
