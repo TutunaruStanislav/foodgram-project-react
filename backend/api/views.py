@@ -20,7 +20,7 @@ from .serializers import (
     FavoritePurchaseSerializer, FollowSerializer, IngredientSerializer,
     RecipeGetSerializer, RecipeSerializer, TagSerializer, UserSerializer
 )
-from .utils import render_purchase_list
+from .utils import get_ingredients_list_for_shopping
 
 
 class UserListCreateViewSet(ListModelMixin,
@@ -75,22 +75,20 @@ class FollowViewSet(viewsets.ModelViewSet):
             'request': request,
         })
 
-        if serializer.is_valid(raise_exception=True):
-            if request.method == 'POST':
-                follow = Follow.objects.create(author=author,
-                                               user=request.user)
-                serializer = FollowSerializer(follow, context={
-                    'request': request
-                })
+        serializer.is_valid(raise_exception=True)
+        if request.method == 'POST':
+            follow = Follow.objects.create(author=author,
+                                           user=request.user)
+            serializer = FollowSerializer(follow, context={
+                'request': request
+            })
 
-                return Response(serializer.data,
-                                status=status.HTTP_201_CREATED)
+            return Response(serializer.data,
+                            status=status.HTTP_201_CREATED)
 
-            subscription.delete()
+        subscription.delete()
 
-            return Response(status=status.HTTP_204_NO_CONTENT)
-
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
@@ -111,25 +109,21 @@ class FavoritePurchaseViewSet(CreateDestroyMixin):
     def create(self, request, *args, **kwargs):
         serializer = FavoritePurchaseSerializer(data={},
                                                 context={'self': self})
-        if serializer.is_valid(raise_exception=True):
-            recipe = get_object_or_404(Recipe, id=kwargs.get('pk'))
-            self.model.objects.create(user=self.request.user, recipe=recipe)
-            serializer = RecipeGetSerializer(recipe)
+        serializer.is_valid(raise_exception=True)
+        recipe = get_object_or_404(Recipe, id=kwargs.get('pk'))
+        self.model.objects.create(user=self.request.user, recipe=recipe)
+        serializer = RecipeGetSerializer(recipe)
 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def destroy(self, request, *args, **kwargs):
         obj = self.model.objects.filter(user=self.request.user,
                                         recipe__id=kwargs.get('pk'))
         serializer = FavoritePurchaseSerializer(data={}, context={'obj': obj})
-        if serializer.is_valid(raise_exception=True):
-            obj.delete()
+        serializer.is_valid(raise_exception=True)
+        obj.delete()
 
-            return Response(status=status.HTTP_204_NO_CONTENT)
-
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class FavoriteViewSet(FavoritePurchaseViewSet):
@@ -145,8 +139,9 @@ class PurchaseViewSet(FavoritePurchaseViewSet):
 
     @action(detail=True, methods=['GET'])
     def purchase_list(self, request):
-        response = HttpResponse(render_purchase_list(request),
-                                'Content-Type: text/plain')
+        response = HttpResponse(
+            get_ingredients_list_for_shopping(request.user),
+            'Content-Type: text/plain')
         response['Content-Disposition'] = ('attachment; '
                                            'filename="PurchaseList.txt"')
 

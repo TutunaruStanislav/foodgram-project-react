@@ -3,10 +3,10 @@ from django.db.models import Sum
 from recipes.models import IngredientAmount
 
 
-def render_purchase_list(request):
+def get_ingredients_list_for_shopping(user):
     purchase_list = []
     ingredients = IngredientAmount.objects.filter(
-        recipe__purchase__user=request.user).values(
+        recipe__purchase__user=user).values(
         'ingredient__name', 'ingredient__measurement_unit').order_by(
         'ingredient__name').annotate(total=Sum('amount'))
 
