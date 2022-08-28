@@ -150,7 +150,7 @@ class Purchase(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'recipe'],
-                name='unique_purchases',
+                name='unique_purchases_users',
             ),
         ]
         verbose_name = 'Заказ'

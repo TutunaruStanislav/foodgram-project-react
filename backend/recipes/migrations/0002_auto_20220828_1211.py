@@ -80,7 +80,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='purchase',
-            constraint=models.UniqueConstraint(fields=('user', 'recipe'), name='unique_purchases'),
+            constraint=models.UniqueConstraint(fields=('user', 'recipe'), name='unique_purchases_users'),
         ),
         migrations.AddConstraint(
             model_name='ingredientamount',
